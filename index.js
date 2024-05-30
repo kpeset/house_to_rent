@@ -34,13 +34,6 @@ const houseToRent = [
     img: "https://images.unsplash.com/photo-1585773690161-7b1cd0accfcf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
     available: true,
   },
-  {
-    name: "Wonderful house with Garden",
-    type: "Flat",
-    desc: "This is the perfect house for you, come to visit it you'll love it ",
-    img: "https://images.unsplash.com/photo-1585773690161-7b1cd0accfcf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
-    available: true,
-  },
 ];
 
 function createCard(houses) {
@@ -83,46 +76,47 @@ function createCard(houses) {
 
 createCard(houseToRent);
 
-function updateCards() {
-  let filteredHouse = houseToRent;
-
-  if (searchInput.value != "") {
-    const research = searchInput.value.toLowerCase();
-
-    filteredHouse = filteredHouse.filter((house) => {
-      return house.name.toLowerCase().includes(research);
-    });
-  }
-
-  if (availableCheckbox.checked) {
-    filteredHouse = filteredHouse.filter((house) => {
-      return house.available === true;
-    });
-  }
-
-  if (selectFilter.value !== "All") {
-    filteredHouse = filteredHouse.filter((house) => {
-      return house.type === selectFilter.value;
-    });
-  }
-
-  createCard(filteredHouse);
-}
-
 // BARRE DE RECHERCHE
 
 const searchInput = document.querySelector(".search-input");
 
-searchInput.addEventListener("input", updateCards);
+searchInput.addEventListener("input", () => {
+  const research = searchInput.value.toLowerCase();
+
+  const result = houseToRent.filter((house) => {
+    return house.name.toLowerCase().includes(research);
+  });
+  createCard(result);
+});
 
 // CHECKBOX DISPONIBILITE MAISON
 
 const availableCheckbox = document.querySelector(".available-checkbox");
 
-availableCheckbox.addEventListener("change", updateCards);
+availableCheckbox.addEventListener("change", () => {
+  let filteredHouse = houseToRent;
+
+  if (availableCheckbox.checked) {
+    filteredHouse = houseToRent.filter((house) => {
+      return house.available === true;
+    });
+  }
+
+  createCard(filteredHouse);
+});
 
 // FILTRER TYPE MAISON
 
 const selectFilter = document.querySelector(".select");
 
-selectFilter.addEventListener("change", updateCards);
+selectFilter.addEventListener("change", () => {
+  let filteredHouse = houseToRent;
+
+  if (selectFilter.value !== "All") {
+    filteredHouse = houseToRent.filter((house) => {
+      return house.type === selectFilter.value;
+    });
+  }
+
+  createCard(filteredHouse);
+});
